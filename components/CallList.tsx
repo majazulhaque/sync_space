@@ -15,16 +15,31 @@ const CallList = ({ type }: { type: 'ended' | 'upcoming' | 'recordings' }) => {
   const [recordings, setRecordings] = useState<CallRecording[]>([]);
 
   const getCalls = () => {
+    let calls: Call[] | CallRecording[] = [];
     switch (type) {
       case 'ended':
-        return endedCalls;
+        calls = endedCalls || [];
+        break;
       case 'recordings':
-        return recordings;
+        calls = recordings || [];
+        break;
       case 'upcoming':
-        return upcomingCalls;
+        calls = upcomingCalls || [];
+        break;
       default:
         return [];
     }
+
+    // Sort the calls based on the date and time
+    return calls.sort((a, b) => {
+      const dateA = new Date(
+        (a as Call).state?.startsAt || (a as CallRecording).start_time || 0
+      );
+      const dateB = new Date(
+        (b as Call).state?.startsAt || (b as CallRecording).start_time || 0
+      );
+      return dateA.getTime() - dateB.getTime(); // Sort in ascending order (earliest first)
+    });
   };
 
   const getNoCallsMessage = () => {
@@ -79,7 +94,7 @@ const CallList = ({ type }: { type: 'ended' | 'upcoming' | 'recordings' }) => {
             title={
               (meeting as Call).state?.custom?.description ||
               (meeting as CallRecording).filename?.substring(0, 20) ||
-              'No Description'
+              'Personal Meeting'
             }
             date={
               (meeting as Call).state?.startsAt?.toLocaleString() ||
