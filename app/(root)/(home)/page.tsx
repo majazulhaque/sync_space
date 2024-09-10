@@ -143,7 +143,7 @@ const Home = () => {
       <div className="flex w-full flex-col text-white">
         <div className="flex w-full items-center justify-between mb-5">
           <h2 className="text-[16px] font-bold tracking-wide lg:text-[20px]">
-            Today's Upcoming Meetings
+            Today&apos;s Upcoming Meetings
           </h2>
           <Link href="/upcoming" className="text-[16px] font-bold tracking-wide lg:text-[20px] cursor-pointer hover:text-orange-1">
             See all
@@ -172,7 +172,7 @@ const Home = () => {
             ))
           ) : (
             <h1 className="text-2xl font-bold text-white">
-              No Upcoming Meeting found Today's
+              No Upcoming Meeting found Today&apos;s
             </h1>
           )}
         </div>
